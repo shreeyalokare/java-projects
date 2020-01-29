@@ -3,7 +3,7 @@
  * Class uses ArrayList to store list of accounts and has methods for listing details of all accounts and listing details of accounts which are active.
  * Also, class has method for getting index for particular account number from ArrayList, Displaying account details, withdrawing specified amount from account and Removing account using account number as parameter.
  * @author (Shreeya Lokare)
- * @version (3.0/20-02-2019)
+ * @version (3.0)
  */
 //Importing package java extension for using GUI widget toolkit- Swing and Util package for creating Arraylist
 import javax.swing.JOptionPane;
