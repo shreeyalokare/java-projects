@@ -1,0 +1,82 @@
+/**
+ * MyBankController class having constructor and methods for printing account details and creating new account using BankAccount class.
+ * Class uses array to store list of accounts and has methods for listing details of all accounts and listing details of accounts which are active.
+ * @author (Shreeya Lokare)
+ * @version (2.0/12-02-2019)
+ */
+//Importing package java extension for using GUI widget toolkit- Swing 
+import javax.swing.JOptionPane;
+//Class Definition
+public class MyBankController
+{
+    //Array decklaration for instance variables
+    private BankAccount[] newAccounts;
+    //Fixed size of array declared
+    private static int SIZE = 4;
+    //Variable declaration for counting accounts created
+    private int counter;
+    //Class constructor
+    public MyBankController()
+    {
+        //Initializing instance variables
+        newAccounts = new BankAccount[SIZE];
+        //Setting counter to 0
+        counter=0;
+    }
+    //Method for printing account details
+    public void printAccountDetails(BankAccount account)
+    {
+        //toString method from class BankAccount is called for printing details
+        JOptionPane.showMessageDialog(null,account.toString(),"Account Details are:",JOptionPane.INFORMATION_MESSAGE);
+    }
+    //Method for creating new account and printing details of account
+    public void createAccount(String customerName,int accNumber)
+    {
+        //Object creation 
+        BankAccount newBankAcc;
+        /*Checks if the number accounts created are less than size of array. 
+         * If not, Adds details to array and increments counter
+         * Prints details using printAccountDetails method
+        */
+        if(counter<SIZE)
+        {
+            newBankAcc = new BankAccount(customerName,accNumber);
+            newAccounts[counter] = newBankAcc;
+            counter++;
+            printAccountDetails(newBankAcc);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Account creation limit exceeded!","Error!",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Displays list of all accounts created before
+    public void listAllAccounts()
+    {
+        String info="";
+        //Loop for iterating till number of accounts
+        for(int i=0;i<counter;i++)
+        {
+            info += newAccounts[i].toString()+"\n";
+        }
+        JOptionPane.showMessageDialog(null,info,"Details of all accounts: ",JOptionPane.ERROR_MESSAGE);
+    }
+    
+    //Displays list of all accounts which are created and are active
+    public void listAllOpenAccounts()
+    {
+        String info = "";
+        //Loop for iterating till number of accounts
+        for(int i=0;i<counter;i++)
+        {
+            //Checks if the status of account is active
+            if(newAccounts[i].getStatus() == true)
+            {
+                info += newAccounts[i].toString()+"\n";
+            }
+        }
+        JOptionPane.showMessageDialog(null,info,"Details of all open account : ",JOptionPane.ERROR_MESSAGE);
+    }
+}
+
