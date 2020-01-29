@@ -1,0 +1,66 @@
+/**
+ * MyBankController2 class having constructor and methods for printing account details and creating new account using BankAccount class.
+ * Class uses ArrayList to store list of accounts and has methods for listing details of all accounts and listing details of accounts which are active.
+ * @author (Shreeya Lokare)
+ * @version (2.0/12-02-2019)
+ */
+//Importing package java extension for using GUI widget toolkit- Swing and Util package for creating Arraylist
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+//Class Definition
+public class MyBankController2
+{
+    //ArrayList decklaration for instance variables
+    private ArrayList<BankAccount> newAccounts;
+    //Class constructor
+    public MyBankController2()
+    {
+        //Initializing ArrayList instance variables
+        newAccounts = new ArrayList<BankAccount>();
+    }
+    //Method for printing account details
+    public void printAccountDetails(BankAccount account)
+    {
+        //toString method from class BankAccount is called for printing details
+        JOptionPane.showMessageDialog(null,account.toString(),"Account Details are:",JOptionPane.INFORMATION_MESSAGE);
+    }
+    //Method for creating new account and printing details of account using printAccountDetails method
+    public void createAccount(String customerName,int accNumber)
+    {
+        //Object creation 
+        BankAccount newBankAcc;
+        newBankAcc = new BankAccount(customerName,accNumber);
+        //Adding into ArrayList
+        newAccounts.add(newBankAcc);
+        printAccountDetails(newBankAcc);
+
+    }
+
+    //Displays list of all accounts created before
+    public void listAllAccounts()
+    {
+        String info="";
+        //Loop for iterating till size of ArrayList
+        for(int i=0;i<newAccounts.size();i++)
+        {
+            info += newAccounts.get(i).toString()+"\n";
+        }
+        JOptionPane.showMessageDialog(null,info,"Details of all accounts: ",JOptionPane.ERROR_MESSAGE);
+    }
+
+    //Displays list of all accounts which are created and are active
+    public void listAllOpenAccounts()
+    {
+        String info = "";
+        //Loop for iterating till size of ArrayList
+        for(int i=0;i<newAccounts.size();i++)
+        {
+            //Checks if the status of account status is active
+            if(newAccounts.get(i).getStatus() == true)
+            {
+                info += newAccounts.get(i).toString()+"\n";
+            }
+        }
+        JOptionPane.showMessageDialog(null,info,"Details of all open account : ",JOptionPane.ERROR_MESSAGE);
+    }
+}
