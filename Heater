@@ -1,0 +1,37 @@
+/**
+ * Write a description of class Heater here.
+ *
+ * @author (Shreeya Lokare)
+ * @version (1.0/ 25-01-2019)
+ */
+public class Heater
+{
+    
+    //Global declaration of floating-point variable temperature
+    private double temperature;
+    
+    //Constructor for class Heater
+    public Heater()
+    {
+        
+	  //Initializing variable to value 15.0
+        temperature=15.0; 
+    }
+     //Mutator for increasing temperature by 5
+    public void  warmer()
+    {
+       temperature += 5.0;
+    }
+    //Mutator for decresing temperature by 5
+    public void cooler ()
+    {
+       temperature -= 5.0;
+    }
+    //Accessor for returning value of temperature variable
+    public double getTemperature ()
+     {
+        return temperature;
+    }   
+        
+}
+
