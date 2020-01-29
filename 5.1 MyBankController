@@ -1,0 +1,428 @@
+/**
+ * MyBankController2 class having constructor and methods for printing account details and creating new account using BankAccount class.
+ * Class uses ArrayList to store list of accounts and has methods for listing details of all accounts and listing details of accounts which are active.
+ * Also, class has method for getting index for particular account number from ArrayList, Displaying account details, withdrawing specified amount from account and Removing account using account number as parameter.
+ * @author (Shreeya Lokare)
+ * @version (4.0)
+ */
+//Importing package java extension for using GUI widget toolkit- Swing and Util package for creating Arraylist
+import javax.swing.JOptionPane;
+import java.util.*;
+import java.io.*;
+//Class Definition
+public class MyBankController2
+{
+    //ArrayList and variables declaration for instance variables
+    private ArrayList<BankAccount> newAccounts;
+    private String fileName = "BankAccount Details.txt";
+    private String output = "";
+
+
+    /**
+     * Constructor for objects of class BankAccount
+     */
+    public MyBankController2()
+    {
+        //Initializing ArrayList instance variables
+        newAccounts = new ArrayList<BankAccount>();
+    }
+
+    /**
+     * Method for printing account details
+     * @ param account this is first parameter for printAccountDetails method 
+     * @ return nothing
+     */
+    public void printAccountDetails(BankAccount account)
+    {
+        //toString method from class BankAccount is called for printing details
+        JOptionPane.showMessageDialog(null,account.toString(),"Account Details are:",JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Method for creating new account and printing details of account using printAccountDetails method
+     * @ param customerName is first parameter for createAccount method 
+     * @ param accNumber is second parameter for createAccount method
+     * @ return nothing
+     */
+    public void createAccount(String customerName,String accNumber)
+    {
+        //Object creation 
+        BankAccount newBankAcc;
+        newBankAcc = new BankAccount(customerName,accNumber);
+        //Adding into ArrayList
+        newAccounts.add(newBankAcc);
+        printAccountDetails(newBankAcc);
+    }
+
+    /**
+     * Method displays list of all accounts created before
+     * @ param no parameter 
+     * @ return nothing
+     */
+    public void listAllAccounts()
+    {
+        String info="";
+        //Loop for iterating till size of ArrayList
+        for(int i=0;i<newAccounts.size();i++)
+        {
+            info += newAccounts.get(i).toString()+"\n";
+        }
+        JOptionPane.showMessageDialog(null,info,"Details of all accounts: ",JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Method Displays list of all accounts which are created and are active
+     * @ param no parameter 
+     * @ return nothing
+     */
+    public void listAllOpenAccounts()
+    {
+        String info = "";
+        //Loop for iterating till size of ArrayList
+        for(int i=0;i<newAccounts.size();i++)
+        {
+            //Checks if the status of account status is active
+            if(newAccounts.get(i).getStatus() == true)
+            {
+                info += newAccounts.get(i).toString()+"\n";
+            }
+        }
+        JOptionPane.showMessageDialog(null,info,"Details of all open account : ",JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Method Returns index of account numbers stored in ArrayList
+     * @ param accNumber is first parameter for getIndex method 
+     * @ return int index of specified account in ArrayList
+     */
+    private int getIndex(String accNumber)
+    {
+        //Loop for traversing 
+        for(int i=0;i<newAccounts.size();i++)
+        {
+            //Checks if account exits or not using equals method for comparing account number
+            if(newAccounts.get(i).getAcnumber().equals(accNumber))
+            {
+                return i;
+            }
+        }
+        JOptionPane.showMessageDialog(null,"Account doesn't exist! ","Info",JOptionPane.ERROR_MESSAGE);
+        //Returns -1 if does not finds a match
+        return -1;
+    }
+
+    /**
+     * Method for withdrawing amount from account
+     * @ param accNumber is first parameter for makeWithdrawal method 
+     * @ param withdrawAmount is second parameter for makeWithdrawal method 
+     * @ return nothing
+     */
+    public void makeWithdrawal(String accNumber,double withdrawAmount)
+    {
+        //Gets index of account using getIndex method
+        int temp=getIndex(accNumber);
+        //Withdraws specified amount using makeWithdrawal method
+        if(temp!=-1)
+        {
+            newAccounts.get(temp).makeWithdrawal(withdrawAmount);
+        }
+    }
+
+    /**
+     * Method for withdrawing amount from account
+     * @ param accNumber is first parameter for closeAccount method 
+     * @ return nothing
+     */
+    public void closeAccount(String accNumber)
+    {
+        //Gets index of account using getIndex method
+        int temp=getIndex(accNumber);
+        if(temp!=-1)
+        {
+            newAccounts.get(temp).closeAccount();
+        }
+    }
+
+    /**
+     * Method for displaying account details
+     * @ param accNumber is first parameter for closeAccount method 
+     * @ return nothing
+     */
+    public void displayAccount(String accNumber)
+    { 
+        int temp=getIndex(accNumber);
+        if(temp!=-1)
+        {
+            String info=newAccounts.get(temp).toString();
+            JOptionPane.showMessageDialog(null,info,"Output :",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    /**
+     * Method for choosing from options to lodge, withdraw and printing account details  
+     * @ param No parameters
+     * @ return nothing
+     */
+    public void customerInterface()
+    {
+        int customerInput=0;
+        String customerSelection="";
+        try{
+            String accNumber=JOptionPane.showInputDialog(null,"Please enter your account number","Account Login",JOptionPane.INFORMATION_MESSAGE);
+            int temp=getIndex(accNumber);
+            if(temp!=-1)
+            {
+                do
+                {
+                    String message="Please select an option below:\n\n"+"[1]Make a lodgement:\n"+"[2]Make a withdrawal:\n"+"[3]Display account details:\n"+"[4]Close account:\n"+"[5]Exit:\n";
+                    customerSelection=JOptionPane.showInputDialog(null,message,"MyBank ATM",JOptionPane.INFORMATION_MESSAGE);
+
+                    switch(customerSelection)
+                    {
+                        case "1":
+                        try{
+                            double lodgementAmt = Double.parseDouble(JOptionPane.showInputDialog(null,"Please enter your deposit amount","Amount details",JOptionPane.INFORMATION_MESSAGE));
+                            newAccounts.get(temp).makeLodgement(lodgementAmt);
+                            JOptionPane.showMessageDialog(null,"The amount has been deposited in your account","Result",JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        catch(Exception e)
+                        {
+                            JOptionPane.showMessageDialog(null,"Please  enter the valid amount","Error",JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+
+                        case "2":
+                        try{
+                            double withdrawAmt = Double.parseDouble(JOptionPane.showInputDialog(null,"Please enter your withdraw amount","Amount details",JOptionPane.INFORMATION_MESSAGE));
+                            newAccounts.get(temp).makeWithdrawal(withdrawAmt);
+                            JOptionPane.showMessageDialog(null,"The amount has been withdrawn from your account","Result",JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        catch(Exception e)
+                        {
+                            JOptionPane.showMessageDialog(null,"Please  enter the valid amount","Error",JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+
+                        case "3":
+                        this.printAccountDetails(newAccounts.get(temp));
+                        break;
+
+                        case "4":
+                        newAccounts.get(temp).closeAccount();
+                        break;
+
+                        case "5":
+                        return;
+
+                    }
+
+                }while(customerSelection!=("5"));
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Account does not exist","Results",JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        }
+        catch(Exception e)
+        {
+
+        }
+
+    }
+    
+    /**
+     * Method for choosing from options to list details of all accounts,list details of all active accounts, create new account, close account and writing/reading from file. .
+     * @ param No parameters
+     * @ return nothing
+     */
+    public void bankInterface()
+    {
+        int customerInput=0;
+        String customerSelection="";
+        String accNumber="",customerName="";
+        try
+        {
+            do
+            {
+                String message="Please select an option below:\n\n"+"[1]Display All Accounts:\n"+"[2]Display All Active Accounts:\n"+"[3]Open a New Account:\n"+"[4]Close an Existing Account:\n"+"[5]Run Start of Day:\n"+"[6]Run End of Day:\n"+"[7]Exit";
+                customerSelection=JOptionPane.showInputDialog(null,message,"MyBank ATM",JOptionPane.INFORMATION_MESSAGE);
+
+                switch(customerSelection)
+                {
+                    case "1":
+                    listAllAccounts();
+                    break;
+
+                    case "2":
+                    listAllOpenAccounts();
+                    break;
+
+                    case "3":
+                    accNumber=JOptionPane.showInputDialog(null,"Please enter your account number","Account Login",JOptionPane.INFORMATION_MESSAGE);
+                    customerName=JOptionPane.showInputDialog(null,"Please enter your name:","Account Login",JOptionPane.INFORMATION_MESSAGE);
+                    createAccount(accNumber,customerName);
+                    break;
+
+                    case "4":
+                    accNumber=JOptionPane.showInputDialog(null,"Please enter your account number","Account Login",JOptionPane.INFORMATION_MESSAGE);
+                    int temp=getIndex(accNumber);
+                    if(temp!=-1)
+                    {     
+                        newAccounts.get(temp).closeAccount();
+                        break;
+                    } 
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,"Account does not exist","Results",JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+                    case "5":
+                    fileOut();
+                    break;
+
+                    case "6":
+                    fileIn();
+                    break;
+
+                    case "7":
+                    return;
+
+                }
+            }while(customerSelection!=("7"));
+        }
+        catch(Exception e)
+        {
+
+        }
+    }
+    
+    /**
+     * Method for reading from file.
+     * @ param No parameters
+     * @ return nothing
+     */
+    private void fileIn()
+    {
+
+        try{
+            //Read the text file from the directory path
+            Scanner sc = new Scanner(new FileReader(fileName));
+            String newLine;
+            //Stimulate the message dialog box showing file is opened for import the data
+            JOptionPane.showMessageDialog(null, "\nFile: " + fileName +
+                " is opened for importing the data \n\n",
+                "Opening a file",JOptionPane.PLAIN_MESSAGE);
+
+            //reads the next line
+            while(sc.hasNextLine()){
+                newLine = sc.nextLine(); //nextline read will be stored in a variable
+                String[] split = newLine.split(","); //splits  the ,(comma) if any in a line
+
+                //values splitted will be added to an array list thru additional constructor created in bank account class
+                newAccounts.add(new BankAccount(split[0],split[1],Double.parseDouble(split[2]),Boolean.parseBoolean(split[3])));
+
+            }
+        }
+        //FileNotFount exception
+        catch(Exception fnf){
+
+            //Stimulate error message
+            JOptionPane.showMessageDialog(null,"An error occured while opening the file. Error:\n" + fnf,"Error",JOptionPane.ERROR_MESSAGE);
+
+            fnf.printStackTrace();
+
+        }
+
+    }
+    
+    /**
+     * Method for writing into file.
+     * @ param No parameters
+     * @ return nothing
+     */
+    private void fileOut(){
+
+        try{
+            //Object creation of PrintWriter to write into file
+            PrintWriter printFile = new PrintWriter(new FileOutputStream(new File(fileName),true));
+            JOptionPane.showMessageDialog(null, "\nFile: " + fileName + " is opened for exporting \n\n",
+                "Opening a file", JOptionPane.PLAIN_MESSAGE);
+            
+            //Loop for iterating and reading from file
+            for(int i = 0; i< newAccounts.size(); i++)
+            {
+                output = newAccounts.get(i).getName() + "," + newAccounts.get(i).getAcnumber() + "," + newAccounts.get(i).getBalance()
+                + "," +  newAccounts.get(i).getStatus();
+                printFile.println(output);
+            }
+            printFile.close();
+        }
+
+        catch(Exception fnf)
+        {
+            //Stimulate error message
+            JOptionPane.showMessageDialog(null, "An error occured while opening the file. Error: \n" + fnf,"Error",JOptionPane.ERROR_MESSAGE);
+            fnf.printStackTrace();
+
+        }
+
+    }
+
+    /**
+     * Method for removing account from ArrayList
+     * @ param accNumber is first parameter for removeAccount method 
+     * @ return nothing
+     */
+    public void removeAccount(String accNumber)
+    {
+        int temp=getIndex(accNumber);
+        if(temp!=-1)
+        {
+            double currentBal=newAccounts.get(temp).getBalance();
+            boolean accStatus=newAccounts.get(temp).getStatus();
+            String accDetails=newAccounts.get(temp).toString();
+            /*Checks if account is active and confirms the removal action using confirm dialog box
+             * If there is balance in the amount, refunds the amount using withdraw method
+             */
+            if(accStatus!=false)
+            {
+                int dialog=JOptionPane.YES_NO_OPTION;
+                String info=newAccounts.get(temp).toString();
+                int resultDialog=JOptionPane.showConfirmDialog(null,accDetails+"\nAre you sure you want to close and remove your account?"
+                    ,"Confirm Removal",dialog);
+                if(resultDialog==JOptionPane.YES_OPTION)
+                {
+                    accStatus=false;
+                    if(currentBal>0)
+                    {
+                        newAccounts.get(temp).makeWithdrawal(currentBal);
+                    }
+                    JOptionPane.showMessageDialog(null,"Account has been removed! \nAccount balance : "+currentBal+" has been refunded!"
+                    ,"Removal Successful :",JOptionPane.INFORMATION_MESSAGE);
+                    newAccounts.remove(temp);
+
+                } 
+            }
+            else
+            {
+                int dialog=JOptionPane.YES_NO_OPTION;
+                String info=newAccounts.get(temp).toString();
+                int resultDialog=JOptionPane.showConfirmDialog(null,accDetails+"\nAre you sure you want to close and remove your account?"
+                    ,"Confirm Removal",dialog);
+                if(resultDialog==JOptionPane.YES_OPTION)
+                {
+                    accStatus=false;
+                    if(currentBal>0)
+                    {
+                        newAccounts.get(temp).makeWithdrawal(currentBal);
+                    }
+                    JOptionPane.showMessageDialog(null,"Account has been removed! \nAccount balance : "+currentBal+" has been refunded!"
+                    ,"Removal Successful :",JOptionPane.INFORMATION_MESSAGE);
+                    newAccounts.remove(temp);
+
+                } 
+            }
+        }
+    }
+}
