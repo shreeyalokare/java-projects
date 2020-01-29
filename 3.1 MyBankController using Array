@@ -2,7 +2,7 @@
  * MyBankController class having constructor and methods for printing account details and creating new account using BankAccount class.
  * Class uses array to store list of accounts and has methods for listing details of all accounts and listing details of accounts which are active.
  * @author (Shreeya Lokare)
- * @version (2.0/12-02-2019)
+ * @version (2.0)
  */
 //Importing package java extension for using GUI widget toolkit- Swing 
 import javax.swing.JOptionPane;
