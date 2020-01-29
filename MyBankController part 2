@@ -1,0 +1,31 @@
+/**
+ * MyBankController class having constructor and methods for printing account details and creating new account using BankAccount class.
+ *
+ * @author (Shreeya Lokare)
+ * @version (1.0/04-02-2019)
+ */
+//Importing package java extension for using GUI widget toolkit- Swing 
+import javax.swing.JOptionPane;
+//Class Definition
+public class MyBankController
+{
+    private BankAccount newBankAcc;
+    //Class constructor
+    public MyBankController()
+    {
+    }
+    //Method for printing account details
+    public void printAccountDetails(BankAccount account)
+    {
+        //toString method from class BankAccount is called for printing details
+        JOptionPane.showMessageDialog(null,account.toString(),"Account Details are:",JOptionPane.INFORMATION_MESSAGE);
+    }
+    //Method for creating new account and printing details of account
+    public void createAccount(String customerName,int accNumber)
+    {
+        //Object creation 
+        newBankAcc = new BankAccount(customerName,accNumber);
+        printAccountDetails(newBankAcc);
+    }
+}
+
