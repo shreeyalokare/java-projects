@@ -1,0 +1,183 @@
+/**
+ * BankAccount class having accessors, constructor and methods for withdrawing or lodging amounts. 
+ * Allows user to make lodgements, withdrawals and checking account details.Also has method for closing account.
+ * @author (Shreeya Lokare)
+ * @version (4.0)
+ */
+//Importing package java extension for using GUI widget toolkit- Swing 
+import javax.swing.JOptionPane;
+
+//Class definition
+public class BankAccount
+{
+    // Gloabal variable declaration
+    public String customerName;
+    public String accNumber;
+    public double currentBal;
+    public boolean accStatus = false;
+
+    /**
+     * Constructor for objects of class BankAccount
+     */
+    public BankAccount(String customerName,String accNumber)
+    {
+        //Initializing balance and account status
+        this.customerName = customerName;
+        this.accNumber = accNumber;
+        currentBal = 0.0;
+        accStatus = true;
+    }
+    
+    public BankAccount(String customerName,String accNumber,double currentBal, boolean accStatus)
+    {
+        //Initializing balance and account status
+        this.customerName = customerName;
+        this.accNumber = accNumber;
+        this.currentBal = currentBal;
+        this.accStatus = accStatus;
+    }
+
+    /**
+     * Mutator for account status
+     * @ param No parameters 
+     * @ return nothing
+     */
+    public void setActive()
+    {
+        if(accStatus)
+        {
+            this.accStatus = false;
+        }
+        else
+        {
+            this.accStatus = true;
+        }
+    }
+
+    /**
+     * Accessor for status of account
+     * @ param No parameters 
+     * @ return boolean value of status of account
+     */
+    public boolean getStatus()
+    {
+        return accStatus;
+    }
+
+    /**
+     * Accessor for acount balance
+     * @ param No parameters 
+     * @ return double value of account balance
+     */
+    public double getBalance()
+    {
+        return currentBal;
+    }
+
+    /**
+     * Accessor for acount number
+     * @ param No parameters 
+     * @ return String value of account number
+     */
+    public String getAcnumber()
+    {
+        return accNumber;
+    }
+
+    /**
+     * Accessor for customer name
+     * @ param No parameters 
+     * @ return String value of customer name
+     */
+    public String getName()
+    {
+        return customerName;
+    }
+
+    /**
+     * Method for making lodgement into account
+     * @ param lodgeAmount this is first parameter of makeLodgement method
+     * @ return nothing
+     */
+    public void makeLodgement(double lodgeAmount)
+    {
+        //Makes lodgement only if lodging amount is greater than zero and account status is "active". Lodgement amount is added to balance.
+        if(lodgeAmount>0 && accStatus==true)
+        {
+            currentBal += lodgeAmount;
+        }
+        else
+        {
+            //Mesage box pop-up if error in lodgement
+            JOptionPane.showMessageDialog(null,"Lodgement error! Please check the lodging amount is greater than 0 and account status is 'Active'!"
+            ,"Lodgement Error",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    /**
+     * Method for making withdrawal from account
+     * @ param withdrawAmount this is first parameter of makeWithdrawal method
+     * @ return nothing
+     */
+    public void makeWithdrawal(double withdrawAmount)
+    {
+        if(accStatus==true)
+        {
+            //Checks if the withdrawal amount is positive integer and not zero
+            if(withdrawAmount>0)
+            {
+                //Check if the account balance is sufficient for withdrawal and withdrawal amount is deducted from balance
+                if(currentBal>=withdrawAmount)
+                {
+                    currentBal -= withdrawAmount;
+                }
+                else
+                {
+                    //Mesage box pop-up for insufficient funds available
+                    JOptionPane.showMessageDialog(null,"Error! Current Balace : €"+currentBal+"\nWithdraw amount : €"+withdrawAmount+"\nShortfall : €"
+                        +(withdrawAmount-currentBal),"Withdraw Error",JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            else
+            {
+                //Mesage box pop-up for withdrawal amount not greater than zero
+                JOptionPane.showMessageDialog(null,"Error! Please check the withdraw amount is greater than 0"
+                ,"Withdraw Error",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Error! Account is Inactive"
+            ,"Withdraw Error",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    /**
+     * Method for closing account- changes account status to inactive and refunds the balance amount
+     * @ param No parameters
+     * @ return nothing
+     */
+    public void closeAccount()
+    {
+        if(accStatus==true)
+        {
+            accStatus=false;
+            makeWithdrawal(currentBal);
+            JOptionPane.showMessageDialog(null,accNumber+" account is closed! Balance amount €"+currentBal+" is refunded!","Account Deactivated!",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Account is already inactive!!","Account Inactive",JOptionPane.INFORMATION_MESSAGE); 
+        }
+    }
+
+    /**
+     * Method for returning account details
+     * @ param No parameters
+     * @ return String value of account details
+     */
+    public String toString()
+    {
+        return "Name :"+this.customerName+", A/c :"+this.accNumber+", Balance : €"+this.currentBal;
+    }
+}
