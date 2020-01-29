@@ -2,7 +2,7 @@
  * BankAccount class having accessors, constructor and methods for withdrawing or lodging amounts. 
  * Allows user to make lodgements, withdrawals and checking account details.Also has method for closing account.
  * @author (Shreeya Lokare)
- * @version (3.0/20-02-2019)
+ * @version (3.0)
  */
 //Importing package java extension for using GUI widget toolkit- Swing 
 import javax.swing.JOptionPane;
