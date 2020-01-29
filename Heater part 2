@@ -1,0 +1,53 @@
+/**
+ * Write a description of class Heater here.
+ *
+ * @author (Shreeya Lokare)
+ * @version (2.0/25-01-2019)
+ */
+public class Heater
+{
+    
+    //Global declaration of floating-point variables temperature, min, max and increment
+    private double temperature,min,max,increment;
+
+    //Constructor for class Heater to initialise variables
+    public Heater()
+    {
+        // initialise instance variables
+        temperature=15.0; 
+        increment=5.0;
+        this.min=min;
+        this.max=max;
+    }
+     //Mutator for increasing temperature by 5 only if less than or equal to max temperature
+    public void  warmer()
+    {
+       if(temperature+increment<=max){
+           
+       temperature += 5.0;
+       
+       }
+    }
+         //Mutator for decresing temperature by 5 only if greater than or equal to max temperature
+    public void cooler ()
+    {
+       if(temperature-increment>=min){
+           
+       temperature -= 5.0;
+       }
+    }
+    //Accessor for returning value of temperature variable
+    public double getTemperature ()
+    {
+        return temperature;
+    }   
+    //Method for setting value of increment if greater than 0  
+    public void setIncrement(double newValue)
+    {
+        if(newValue>0)
+        {
+            increment=newValue;
+        }
+    }
+}
+
